@@ -69,6 +69,29 @@ Blockly.Input.prototype.align = Blockly.ALIGN_LEFT;
 Blockly.Input.prototype.visible_ = true;
 
 /**
+ * Force new line input
+ * @type {boolean}
+ * @private
+ */
+Blockly.Input.prototype.forceNewlineInput_ = false;
+
+/**
+ * Set force to display input in new line
+ * @param {boolean} forceNewLine The new value (true to force inline input, false to use standard disposition)
+ */
+Blockly.Input.prototype.setForceNewlineInput = function(forceNewLine) {
+	this.forceNewlineInput_ = forceNewLine;
+};
+
+/**
+ * Tells if this block must be displayed on a new line
+ * @return {boolean} True if the input should be displayed inline, false to use standard disposition
+ */
+Blockly.Input.prototype.getForceNewlineInput = function() {
+	return this.forceNewlineInput_;
+};
+
+/**
  * Add an item to the end of the input's field row.
  * @param {string|!Blockly.Field} field Something to add as a field.
  * @param {string=} opt_name Language-neutral identifier which may used to find
