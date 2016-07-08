@@ -264,10 +264,7 @@ Blockly.FieldDropdown.prototype.setValue = function(newValue) {
   if (newValue === null || newValue === this.value_) {
     return;  // No change if null.
   }
-  if (this.sourceBlock_ && Blockly.Events.isEnabled()) {
-    Blockly.Events.fire(new Blockly.Events.Change(
-        this.sourceBlock_, 'field', this.name, this.value_, newValue));
-  }
+  Blockly.Field.prototype.fieldHasChanged(this, this.value_, newValue);
   this.value_ = newValue;
   // Look up and display the human-readable text.
   var options = this.getOptions_();
