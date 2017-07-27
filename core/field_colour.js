@@ -99,8 +99,10 @@ Blockly.FieldColour.prototype.getValue = function() {
  * @param {string} colour The new colour in '#rrggbb' format.
  */
 Blockly.FieldColour.prototype.setValue = function(colour) {
-  if (this.colour_ != colour) {
-    Blockly.Field.prototype.fieldHasChanged(this, this.colour_, colour);
+  if (this.sourceBlock_ && Blockly.Events.isEnabled() &&
+      this.colour_ != colour) {
+    Blockly.Events.fire(new Blockly.Events.BlockChange(
+        this.sourceBlock_, 'field', this.name, this.colour_, colour));
   }
   this.colour_ = colour;
   if (this.borderRect_) {
@@ -211,12 +213,9 @@ Blockly.FieldColour.prototype.showEditor_ = function() {
       function(event) {
         var colour = event.target.getSelectedColor() || '#000000';
         Blockly.WidgetDiv.hide();
-        if (thisField.sourceBlock_ && thisField.validator_) {
+        if (thisField.sourceBlock_) {
           // Call any validation function, and allow it to override.
-          var override = thisField.validator_(colour);
-          if (override !== undefined) {
-            colour = override;
-          }
+          colour = thisField.callValidator(colour);
         }
         if (colour !== null) {
           thisField.setValue(colour);
@@ -232,4 +231,5 @@ Blockly.FieldColour.widgetDispose_ = function() {
   if (Blockly.FieldColour.changeEventKey_) {
     goog.events.unlistenByKey(Blockly.FieldColour.changeEventKey_);
   }
+  Blockly.Events.setGroup(false);
 };
