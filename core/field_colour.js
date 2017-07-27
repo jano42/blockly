@@ -99,10 +99,8 @@ Blockly.FieldColour.prototype.getValue = function() {
  * @param {string} colour The new colour in '#rrggbb' format.
  */
 Blockly.FieldColour.prototype.setValue = function(colour) {
-  if (this.sourceBlock_ && Blockly.Events.isEnabled() &&
-      this.colour_ != colour) {
-    Blockly.Events.fire(new Blockly.Events.BlockChange(
-        this.sourceBlock_, 'field', this.name, this.colour_, colour));
+  if (this.colour_ != colour) {
+    Blockly.Field.prototype.fieldHasChanged(this, this.colour_, colour);
   }
   this.colour_ = colour;
   if (this.borderRect_) {

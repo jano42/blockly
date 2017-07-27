@@ -119,10 +119,8 @@ Blockly.FieldVariable.prototype.setValue = function(value) {
     else if (variable = this.sourceBlock_.workspace.getVariable(value)) {
       newValue = variable.getId();
     }
-    if (Blockly.Events.isEnabled()) {
-      Blockly.Events.fire(new Blockly.Events.BlockChange(
-          this.sourceBlock_, 'field', this.name, this.value_, newValue));
-    }
+    
+    Blockly.Field.prototype.fieldHasChanged(this, this.value_, newValue);
   }
   this.value_ = newValue;
   this.setText(newText);

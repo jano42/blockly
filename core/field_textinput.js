@@ -108,10 +108,7 @@ Blockly.FieldTextInput.prototype.setText = function(newText) {
     // No change.
     return;
   }
-  if (this.sourceBlock_ && Blockly.Events.isEnabled()) {
-    Blockly.Events.fire(new Blockly.Events.BlockChange(
-        this.sourceBlock_, 'field', this.name, this.text_, newText));
-  }
+  Blockly.Field.prototype.fieldHasChanged(this, this.text_, newText);
   Blockly.Field.prototype.setText.call(this, newText);
 };
 
